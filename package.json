@@ -1,0 +1,32 @@
+{
+  "name": "medibe",
+  "version": "1.0.0",
+  "description": "MyEDI system backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicolas Develeer",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mysql": "^2.14.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.8"
+  },
+  "configurations": [
+    {
+      "name": "Launch with nodemon",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/nodemon/bin/nodemon.js",
+      "args": ["${workspaceRoot}/index.js"],
+      "runtimeArgs": ["--nolazy"]
+    }
+  ]
+}
