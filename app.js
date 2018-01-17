@@ -29,6 +29,9 @@ app.use('/suppliers', suppliersRoutes);
 var suppliersRoutes = require('./routes/x400');
 app.use('/x400', suppliersRoutes);
 
+var suppliersRoutes = require('./routes/tp');
+app.use('/tp', suppliersRoutes);
+
 app.listen(port, function(){
     console.log('app running on port %d', port);
 });
