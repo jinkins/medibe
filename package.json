@@ -25,8 +25,12 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/nodemon/bin/nodemon.js",
-      "args": ["${workspaceRoot}/index.js"],
-      "runtimeArgs": ["--nolazy"]
+      "args": [
+        "${workspaceRoot}/index.js"
+      ],
+      "runtimeArgs": [
+        "--nolazy"
+      ]
     }
   ]
 }

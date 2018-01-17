@@ -25,7 +25,7 @@ router.use('/', function (req, res, next) {
 
 router.get('/', function (req, res, next) {
 
-    const sql = 'SELECT * FROM suppliers';
+    const sql = 'SELECT * FROM suppliers WHERE gln IS NOT NULL';
 
     db.connection.getConnection(function (errCon, con) {
         if (errCon) {
