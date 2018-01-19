@@ -25,7 +25,7 @@ router.use('/', function (req, res, next) {
 
 router.get('/', function (req, res, next) {
 
-    const sql = 'SELECT * FROM tp';
+    const sql = 'SELECT id, name, tpType as type, as2id, as2url FROM tp';
 
     db.connection.getConnection(function (errCon, con) {
         if (errCon) {
@@ -57,7 +57,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/search', function (req, res, next) {
 
-    let sql = 'SELECT * FROM tp' // where lifnr = + mysql.escape(req.params.id);
+    let sql = 'SELECT id, name, tpType as type, as2id, as2url FROM tp' // where lifnr = + mysql.escape(req.params.id);
     let i = 0;
 
     if (req.body.id) {
