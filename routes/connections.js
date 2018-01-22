@@ -57,7 +57,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/find', function (req, res, next) {
 
-    var sql = `SELECT connections.id as idCon, connections.gln, connections.message, connections.copy, connections.modate, connections.actif, connections.credat, tp.name as tpName, tp.id as idTP, tp.as2id, tp.as2url, tp.tpType FROM connections INNER JOIN tp on tp.name = connections.tp INNER JOIN suppliers on suppliers.gln = connections.gln `;
+    var sql = `SELECT connections.id as idCon, connections.gln, connections.message, connections.copy, connections.modate, connections.actif, connections.credat, tp.tpName as tpName, tp.id as idTP, tp.as2id, tp.as2url, tp.tpType, x400.* FROM connections INNER JOIN tp on tp.name = connections.tp INNER JOIN suppliers on suppliers.gln = connections.gln INNER JOIN x400 on x400.gln = connections.gln`;
 
     var queryCompt = 0;
     console.log(req.query);
