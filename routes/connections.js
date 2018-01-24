@@ -11,7 +11,7 @@ var parameters = require('../params');
 var jwt = require('jsonwebtoken');
 
 router.use('/', function (req, res, next) {
-    jwt.verify(req.query.token, parameters.code , function (err, decoded) {
+    jwt.verify(req.query.token, parameters.code, function (err, decoded) {
         if (err) {
             return res.status(401).json({
                 status: 'KO',
@@ -61,9 +61,9 @@ router.get('/find', function (req, res, next) {
 
     var queryCompt = 0;
     console.log(req.query);
-    for(key in req.query) {
-        if(key!=='token') {
-            if(queryCompt == 0) {
+    for (key in req.query) {
+        if (key !== 'token') {
+            if (queryCompt == 0) {
                 sql += " WHERE " + key + " = " + req.query[key];
             } else {
                 sql += " AND " + key + " = " + req.query[key];
@@ -93,9 +93,46 @@ router.get('/find', function (req, res, next) {
                     })
                 } else {
                     con.release();
-                    var rs = [];
+                    var rs = {};
+                    var t = [];
                     results.forEach(e => {
-                        const r = {
+
+                        if (!rs[e['id']]) {
+                            id: e['id'];
+                            gln: e['gln'];
+                            message: e['message'];
+                            actif: e['actif'];
+                            odate: e['modate'];
+                            credat: e['credat'];
+                            tp: {
+                                id: e['idTP'];
+                                type: e['tpType'];
+                                as2url: e['as2url'];
+                                as2id: e['as2url'];
+                                name: e['tpName'];
+                            };
+                            x400: {
+                                admd: e['admd'];
+                                prmd: e['prmd'];
+                                c: e['c'];
+                                s: e['s'];
+                                o: e['o'];
+                            }
+                            suppliers: [];
+                        } 
+                        if(e['supName']){
+                            rs[e['id']].suppliers.push({
+                                lifnr: e['lifnr'],
+                                gln: e['gln'],
+                                tva: e['tva'],
+                                lang: e['lang'],
+                                name: e['supName']
+                        });
+                    }
+
+
+                        /*
+                        let r = {
                             id: e['idCon'],
                             gln: e['gln'],
                             message: e['message'],
@@ -113,7 +150,13 @@ router.get('/find', function (req, res, next) {
                             copy: e['copy']
                         };
                         rs.push(r);
-                    })
+                        */
+                    });
+
+                    for( index in rs) {
+                        t.push(rs[index]);
+                    }
+
                     return res.status(200).json(rs)
                 }
             })
