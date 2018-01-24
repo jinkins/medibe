@@ -57,20 +57,43 @@ router.get('/', function (req, res, next) {
 
 router.get('/find', function (req, res, next) {
 
-    var sql = `SELECT connections.id as idCon, connections.gln, connections.message, connections.copy, connections.modate, connections.actif, connections.credat, tp.tpName as tpName, tp.id as idTP, tp.as2id, tp.as2url, tp.tpType, x400.* FROM connections INNER JOIN tp on tp.name = connections.tp INNER JOIN suppliers on suppliers.gln = connections.gln INNER JOIN x400 on x400.gln = connections.gln`;
+    var sql = "SELECT connections.id as idCon, connections.gln as gln, connections.message, connections.copy, connections.modate, connections.actif, connections.credat, tp.tpName as tpName, tp.id as idTP, tp.as2id, tp.as2url, tp.tpType, x400.c, x400.admd, x400.prmd, x400.s, x400.g, x400.o, suppliers.lifnr, suppliers.name as supName, suppliers.tva, suppliers.lang FROM connections INNER JOIN tp on tp.tpName = connections.tp LEFT JOIN suppliers on suppliers.gln = connections.gln LEFT JOIN x400 on x400.gln = connections.gln";
 
     var queryCompt = 0;
+<<<<<<< HEAD
     console.log(req.query);
     for (key in req.query) {
         if (key !== 'token') {
             if (queryCompt == 0) {
                 sql += " WHERE " + key + " = " + req.query[key];
+=======
+    let val = [];
+    for(key in req.query) {
+        if(key!=='token') {
+            val.push(req.query[key]);
+            if(queryCompt == 0) {
+                if(key=="suppliers.name") {
+                    sql += " WHERE " + key + " LIKE CONCAT('%',?,'%') ";
+                }
+                else{
+                    sql += " WHERE " + key + " = ? ";
+                }
+                
+
+>>>>>>> fc22422a43c0125a5098ff96dafc5ebc87e4f658
             } else {
-                sql += " AND " + key + " = " + req.query[key];
+                if(key=="name") {
+                    sql += " AND " + key + " LIKE CONCAT('%',?,'%')";
+                }
+                else{
+                    sql += " AND " + key + " = ?";
+                }
+                
             }
             queryCompt++;
         }
     }
+    console.log(sql);
 
     db.connection.getConnection(function (errCon, con) {
         if (errCon) {
@@ -81,7 +104,7 @@ router.get('/find', function (req, res, next) {
                 error: errCon
             })
         } else {
-            db.connection.query(sql, function (errData, results, fields) {
+            db.connection.query(sql, val, function (errData, results, fields) {
                 if (errData) {
                     con.release();
                     console.log(errData);
@@ -143,11 +166,25 @@ router.get('/find', function (req, res, next) {
                                 as2id: e['as2url'],
                                 name: e['tpName']
                             },
-                            x400: null, // to do 
+                            x400: {
+                                admd: e['admd'],
+                                prmd: e['prmd'],
+                                c: e['c'],
+                                s: e['s'],
+                                g: e['g'],
+                                o: e['o']
+                            },
                             modate: e['modate'],
                             credat: e['credat'],
                             actif: e['actif'],
-                            copy: e['copy']
+                            copy: e['copy'],
+                            suppliers: {
+                                lifnr: e['lifnr'],
+                                name: e['supName'],
+                                tva: e['tva'],
+                                lang: e['lang'],
+                                gln: e['gln']
+                            }
                         };
                         rs.push(r);
                         */

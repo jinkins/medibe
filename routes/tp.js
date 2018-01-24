@@ -25,7 +25,7 @@ router.use('/', function (req, res, next) {
 
 router.get('/', function (req, res, next) {
 
-    const sql = 'SELECT id, name, tpType as type, as2id, as2url FROM tp';
+    const sql = 'SELECT id, tpName, tpType as type, as2id, as2url FROM tp order by tpName';
 
     db.connection.getConnection(function (errCon, con) {
         if (errCon) {
